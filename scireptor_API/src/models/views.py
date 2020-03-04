@@ -1,4 +1,5 @@
 from flask import jsonify
+
 def create_response_cell(cells):
     cells_list = []
     for x in cells:
@@ -35,6 +36,8 @@ def create_response_rearrangement(rearrangement):
                "junction_aa": x[9]}
         rearrangement_ls.append(sub)
     return jsonify({'Rearrangements': rearrangement_ls})
+
+
 def create_response_repertoire(repertoire):
     repertoire_ls = []
     for i in repertoire:
