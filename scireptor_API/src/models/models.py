@@ -13,7 +13,6 @@ class Serializer(object):
         return [m.serialize() for m in l]
 class Sample(db.Model):
     """Data model for samples."""
-
     __tablename__ = 'sample'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     sample_id = db.Column(db.Integer,primary_key=True)
@@ -28,6 +27,8 @@ class Sample(db.Model):
                                     unique=False,
                                     nullable=False)
 class Flow(db.Model):
+
+    """Data model for flow data."""
     __tablename__='flow'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     flow_id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +38,7 @@ class Flow(db.Model):
     cell = db.relationship('Sequence', backref= 'flow')
 
 class Rearrangement(db.Model):
+    """Data model for derived rearrangements."""
     __tablename__='dervied_segment_rearrangements'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     rearrangement_id=db.Column(db.Integer, primary_key=True)
@@ -50,6 +52,7 @@ class Rearrangement(db.Model):
     vdj = db.relationship('Sequence', backref='rearrangement')
 
 class Sequence(db.Model):
+    """Data model for sequences tables."""
     __tablename__ = 'sequences'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     seq_id= db.Column(db.Integer, primary_key=True)
@@ -67,6 +70,7 @@ class Sequence(db.Model):
     event_id = db.Column(db.Integer, unique= True, nullable=  False)
 
 class Event(db.Model):
+    """Data model for event table."""
     __tablename__ = 'event'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     event_id= db.Column(db.Integer, primary_key=True)
@@ -74,12 +78,14 @@ class Event(db.Model):
     relation = db.relationship('Sequence', backref='event')
 
 class Sort(db.Model):
+    """Data model for sort."""
     __tablename__ = 'sort'
     sort_id = db.Column(db.Integer,  primary_key=True)
     population = db.Column(db.String(10), index= True, unique= True, nullable=  False)
     relation = db.relationship('Event', backref= 'sort')
 
 class SequenceInfo(db.Model):
+    """Data model for sequencing Info."""
     __tablename__ = 'sequencing_run'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     sequencing_run_id= db.Column(db.Integer, primary_key=True)
@@ -87,6 +93,7 @@ class SequenceInfo(db.Model):
     name = db.Column(db.String(100), index= True, unique= True, nullable=  False)
 
 class Donor(db.Model):
+    """Data model for donor."""
     __tablename__ = 'donor'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     donor_id = db.Column(db.Integer, primary_key=True)
@@ -97,6 +104,7 @@ class Donor(db.Model):
     relation_sample = db.relationship('Sample', backref='donor')
 
 class CDR(db.Model):
+    """Data model for CDR."""
     __tablename__ = 'CDR_FWR'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     seq_id = db.Column(db.Integer,  db.ForeignKey('rearrangement.seq_id'))
@@ -111,6 +119,7 @@ class CDR(db.Model):
     relation = db.relationship('Rearrangement', backref='cdr')
 
 class VDJ(db.Model):
+    """Data model for VDJ."""
     __tablename__ = 'VDJ_segments'
     __table_args__ = {'mysql_row_format': 'DYNAMIC'}
     VDJ_segments_id = db.Column(db.Integer,  primary_key=True)
