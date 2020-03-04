@@ -1,3 +1,4 @@
+--Please change the database names accordingly
 create table test_data_mouse_B6.dervied_segment_rearrangements AS
 SELECT
 		v_segment.seq_id AS rearrangement_id,
