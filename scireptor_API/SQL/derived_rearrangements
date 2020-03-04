@@ -1,0 +1,53 @@
+create table test_data_mouse_B6.dervied_segment_rearrangements AS
+SELECT
+		v_segment.seq_id AS rearrangement_id,
+		v_segment.name AS v_call,
+		j_segment.name AS j_call,
+		null as d_call,
+        c_segment.name as c_call,
+		v_segment.locus AS locus
+FROM
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='V' AND locus='L' AND igblast_rank=1) AS v_segment
+INNER JOIN
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='J' AND locus='L' AND igblast_rank=1) AS j_segment
+	ON v_segment.seq_id = j_segment.seq_id
+LEFT OUTER JOIN
+     (SELECT seq_id, name FROM test_data_mouse_B6.constant_segments) AS c_segment
+     on j_segment.seq_id = c_segment.seq_id
+UNION
+	SELECT
+		v_segment.seq_id AS rearrangement_id,
+		v_segment.name AS v_call,
+		j_segment.name AS j_call,
+        d_segment.name as d_call,
+        c_segment.name as c_call,
+		v_segment.locus AS locus
+	FROM
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='V' AND locus='H' AND igblast_rank=1) AS v_segment
+INNER JOIN
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='J' AND locus='H' AND igblast_rank=1) AS j_segment
+	ON v_segment.seq_id = j_segment.seq_id
+LEFT OUTER JOIN
+    (SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='D' AND locus='H' AND igblast_rank=1) AS d_segment
+    ON j_segment.seq_id = d_segment.seq_id
+LEFT OUTER JOIN
+     (SELECT seq_id, name FROM test_data_mouse_B6.constant_segments) AS c_segment
+     on d_segment.seq_id = c_segment.seq_id
+UNION
+SELECT
+		v_segment.seq_id AS rearrangement_id,
+		v_segment.name AS v_call,
+		j_segment.name AS j_call,
+		null as d_call,
+        c_segment.name as c_call,
+		v_segment.locus AS locus
+FROM
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='V' AND locus='K' AND igblast_rank=1) AS v_segment
+INNER JOIN
+	(SELECT seq_id, name, igblast_rank, locus FROM test_data_mouse_B6.VDJ_segments WHERE type='J' AND locus='K' AND igblast_rank=1) AS j_segment
+	ON v_segment.seq_id = j_segment.seq_id
+LEFT OUTER JOIN
+     (SELECT seq_id, name FROM test_data_mouse_B6.constant_segments) AS c_segment
+     on j_segment.seq_id = c_segment.seq_id
+
+
