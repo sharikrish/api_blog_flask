@@ -10,17 +10,20 @@ def get_test_cells():
                                                                                      sort_id).\
             join(Sequence, Event.event_id == Sequence.event_id).filter(
             Event.event_id == request.args['cell_id']).order_by(Sequence.event_id)
+        
         return create_response_cell(cells)
     else:
         cells = db.session.query(Event.event_id, Sequence.seq_id, Sort.sort_id).join(Sort,
                 Event.sort_id == Sort.sort_id).join(Sequence, Event.event_id == Sequence.event_id).\
             order_by(Sequence.event_id)
+        
         return create_response_cell(cells)
 
 @app.route('/api/test/cell/<int:cell_id>', methods=['GET', 'POST'])
 def get_test_cell(cell_id):
     cells= db.session.query(Event.event_id, Sequence.seq_id, Sort.sort_id).join(Sort, Event.sort_id == Sort.sort_id).\
         join(Sequence, Event.event_id == Sequence.event_id).filter(Event.event_id==cell_id).order_by(Sequence.event_id)
+    
     return create_response_cell(cells)
 
 @app.route('/api/test/repertoires', methods=['GET', 'POST'])
@@ -76,4 +79,5 @@ def get_reaarangement(re_id):
                                      Rearrangement.j_call, Rearrangement.event_id, CDR.dna_seq,CDR.prot_seq).\
         join(CDR, CDR.seq_id==Rearrangement.rearrangement_id).filter(CDR.region == "CDR3").\
         filter(Rearrangement.rearrangement_id == re_id)
+    
     create_response_rearrangement(rearrangement)
