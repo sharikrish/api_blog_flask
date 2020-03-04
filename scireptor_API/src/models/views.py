@@ -4,14 +4,18 @@ def create_response_cell(cells):
     for x in cells:
         groups = {
             'cell_id': str(x[0]),
-            'rearrangement_id': str(x[1])
+            'rearrangement_id': str(x[1]),
+            'repertoire_id': str(x[2])
         }
         cells_list.append(groups)
     cell_list = []
     for index in set(item['cell_id'] for item in cells_list):
+        repls = [item["repertoire_id"] for item in cells_list if item['cell_id'] == index]
+        repls_unique = ''.join(list(set(repls)))
         sub = {
             'cell_id': index,
             'rearrangement_id': [item["rearrangement_id"] for item in cells_list if item['cell_id'] == index],
+            'repertoire_id' : repls_unique,
             'virtual': bool(False)}
         cell_list.append(sub)
     return jsonify({'Cell': cell_list})
