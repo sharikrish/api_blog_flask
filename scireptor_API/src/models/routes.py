@@ -10,7 +10,7 @@ def get_test_cells():
                                                                                      sort_id).\
             join(Sequence, Event.event_id == Sequence.event_id).filter(
             Event.event_id == request.args['cell_id']).order_by(Sequence.event_id)
-        return  create_response_cell(cells)
+        return create_response_cell(cells)
     else:
         cells = db.session.query(Event.event_id, Sequence.seq_id, Sort.sort_id).join(Sort,
                 Event.sort_id == Sort.sort_id).join(Sequence, Event.event_id == Sequence.event_id).\
